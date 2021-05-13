@@ -12,6 +12,7 @@
 		ACF6E1402643C18900C5D0CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF6E13F2643C18900C5D0CC /* Assets.xcassets */; };
 		ACF6E1432643C18900C5D0CC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF6E1422643C18900C5D0CC /* Preview Assets.xcassets */; };
 		ACF6E14C2643C95800C5D0CC /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF6E14B2643C95800C5D0CC /* WeatherModel.swift */; };
+		ACF947A8264D057000271709 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF947A7264D057000271709 /* WeatherViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		ACF6E1422643C18900C5D0CC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ACF6E1442643C18900C5D0CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACF6E14B2643C95800C5D0CC /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
+		ACF947A7264D057000271709 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		ACF6E13A2643C18700C5D0CC /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				ACF947A7264D057000271709 /* WeatherViewModel.swift */,
 				ACF6E13B2643C18700C5D0CC /* WeatherAppApp.swift */,
 				ACF6E13D2643C18700C5D0CC /* ContentView.swift */,
 				ACF6E14B2643C95800C5D0CC /* WeatherModel.swift */,
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACF6E13E2643C18700C5D0CC /* ContentView.swift in Sources */,
+				ACF947A8264D057000271709 /* WeatherViewModel.swift in Sources */,
 				ACF6E14C2643C95800C5D0CC /* WeatherModel.swift in Sources */,
 				ACF6E13C2643C18700C5D0CC /* WeatherAppApp.swift in Sources */,
 			);
