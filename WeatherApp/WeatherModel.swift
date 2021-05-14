@@ -9,14 +9,14 @@ import Foundation
 struct WeatherModel{
     var records: Array<WeatherRecord> = []
      
-    init(cities: Array<String>)
-    {
-        records: Array<WeatherRecord>
+    init(cities: Array<String>){
+        records = Array<WeatherRecord>()
         for city in cities{
             records.append(WeatherRecord(cityName: city))
         }
     }
-    struct WeatherRecord{
+    struct WeatherRecord: Identifiable{
+        var id: UUID = UUID()
         var cityName: String
         var weatherState: String = "clear"
         var temperature: Float = Float.random(in: -10...30)
@@ -25,7 +25,8 @@ struct WeatherModel{
         var windDirection: Float = Float.random(in: 0..<360)
     }
     
-    func refresh(record: WeatherRecord){
+    mutating func refresh(record: WeatherRecord){
+        records[0].temperature = Float.random(in: -10...30)
         print("Refreshing record: \(record)")
     }
 }
