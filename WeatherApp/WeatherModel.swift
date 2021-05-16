@@ -23,8 +23,8 @@ struct WeatherModel{
         var humidity: Float = Float.random(in: 0...100)
         var windSpeed: Float = Float.random(in: 0...20)
         var windDirection: Float = Float.random(in: 0..<360)
+        //variables added to change view after tapping
         var showing: String = "Temperature"
-        //lazy var value: Float = {self.temperature}()
         var value: Float = Float.random(in: -10...30)
     }
     
@@ -39,6 +39,7 @@ struct WeatherModel{
         }
     }
     
+    //find and change shown variable
     mutating func change(record: WeatherRecord){
         var i = 0
         for rec in records{

@@ -29,6 +29,7 @@ struct ContentView: View {
             VStack{
             
                 ForEach(viewModel.records){ rec in
+                    //checking if records state exist in dictionary
                     if((imageState[rec.weatherState]) == "☀️" || (imageState[rec.weatherState]) == "🌤" ||
                         (imageState[rec.weatherState]) == "☁️" ||
                         (imageState[rec.weatherState]) == "🌧" ||
@@ -69,6 +70,7 @@ struct WeatherRecordView: View{
                         Text("\(record.showing) : \(record.value,  specifier: "%.2f")")
                             .font(.caption)
                             .onTapGesture {
+                                //changing variable
                                 viewModel.change(record: record)
                             }
                         
@@ -78,7 +80,7 @@ struct WeatherRecordView: View{
                         .onTapGesture {
                             viewModel.refresh(record: record)
                         }
-                }
+                }.frame(width: 250)
             }.frame(height: 70)
     }
 }
