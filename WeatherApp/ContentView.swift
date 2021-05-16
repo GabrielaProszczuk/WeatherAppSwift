@@ -10,18 +10,34 @@ import SwiftUI
 struct ContentView: View {
 
     @ObservedObject var viewModel: WeatherViewModel
-
+    var imageState: [String: String] = [
+                      "clear": "☀️",
+                      "lightCloud":"🌤",
+                      "heavyCloud":"☁️",
+                      "lightRain":"🌦",
+                      "heavyRain":"🌧",
+                      "thunderstorm":"⛈",
+                      "snow":"❄️"
+    ]
+    var data: String = ""
     var body: some View {
         VStack{
-    
+        
             ForEach(viewModel.records){ rec in
-                if(rec.weatherState == "clear"){
-                    WeatherRecordView(record: rec, viewModel: viewModel, image: "☀️")
+                if((imageState[rec.weatherState]) == "☀️" || (imageState[rec.weatherState]) == "🌤" ||
+                    (imageState[rec.weatherState]) == "☁️" ||
+                    (imageState[rec.weatherState]) == "🌧" ||
+                    (imageState[rec.weatherState]) == "🌦" ||
+                    (imageState[rec.weatherState]) == "⛈" ||
+                    (imageState[rec.weatherState]) == "❄️"){
                     
-                }else{
-                    WeatherRecordView(record: rec, viewModel: viewModel, image: "⛈")                }
-                
-            
+                    WeatherRecordView(record: rec, viewModel: viewModel, image: imageState[rec.weatherState]!)
+                    
+                }
+                else{
+                    WeatherRecordView(record: rec, viewModel: viewModel, image: "﹖")
+                    
+                }
             }
         }.padding()
     }
@@ -30,7 +46,7 @@ struct ContentView: View {
 struct WeatherRecordView: View{
     var record: WeatherModel.WeatherRecord
     var viewModel: WeatherViewModel
-    var image: String
+    var image: String = "a"
     
     var body: some View{
         ZStack{
