@@ -57,8 +57,12 @@ struct WeatherRecordView: View{
                     .font(.largeTitle)
                 VStack{
                     Text(record.cityName)
-                    Text("Temperature: \(record.temperature, specifier: "%.2f")℃")
+                    Text("\(record.showing) : \(record.value,  specifier: "%.2f")")
                         .font(.caption)
+                        .onTapGesture {
+                            viewModel.change(record: record)
+                        }
+                    
                 }
                 Text("🔄")
                     .font(.largeTitle)

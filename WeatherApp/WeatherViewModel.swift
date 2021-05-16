@@ -17,4 +17,8 @@ class WeatherViewModel: ObservableObject{
        // objectWillChange.send()
         model.refresh(record: record)
     }
+    
+    func change(record: WeatherModel.WeatherRecord){
+        model.change(record: record)
+    }
 }
