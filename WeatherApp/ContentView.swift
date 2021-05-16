@@ -15,7 +15,12 @@ struct ContentView: View {
         VStack{
     
             ForEach(viewModel.records){ rec in
-                WeatherRecordView(record: rec, viewModel: viewModel)
+                if(rec.weatherState == "clear"){
+                    WeatherRecordView(record: rec, viewModel: viewModel, image: "☀️")
+                    
+                }else{
+                    WeatherRecordView(record: rec, viewModel: viewModel, image: "⛈")                }
+                
             
             }
         }.padding()
@@ -25,12 +30,14 @@ struct ContentView: View {
 struct WeatherRecordView: View{
     var record: WeatherModel.WeatherRecord
     var viewModel: WeatherViewModel
+    var image: String
+    
     var body: some View{
         ZStack{
             RoundedRectangle(cornerRadius: 25.0)
                 .stroke()
             HStack{
-                Text("☀️")
+                Text(image)
                     .font(.largeTitle)
                 VStack{
                     Text(record.cityName)
