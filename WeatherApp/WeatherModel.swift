@@ -26,7 +26,13 @@ struct WeatherModel{
     }
     
     mutating func refresh(record: WeatherRecord){
-        records[0].temperature = Float.random(in: -10...30)
-        print("Refreshing record: \(record)")
+        var i = 0
+        for rec in records{
+            if(rec.cityName==record.cityName){
+                records[i].temperature = Float.random(in: -10...30)
+                print("Refreshing record: \(record)")
+            }
+            i += 1
+        }
     }
 }
