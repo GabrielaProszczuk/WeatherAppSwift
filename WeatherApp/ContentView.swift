@@ -14,32 +14,40 @@ struct ContentView: View {
                       "clear": "☀️",
                       "lightCloud":"🌤",
                       "heavyCloud":"☁️",
-                      "lightRain":"🌦",
-                      "heavyRain":"🌧",
-                      "thunderstorm":"⛈",
-                      "snow":"❄️"
+                      "thunderstorm":"🌩",
+                      "showers":"🌦",
+                      "lightRain":"🌧",
+                      "heavyRain":"⛈",
+                      "snow":"❄️",
+                      "sleet":"🌨",
+                      "hail":"💨"
+        
     ]
     var data: String = ""
     var body: some View {
-        VStack{
-        
-            ForEach(viewModel.records){ rec in
-                if((imageState[rec.weatherState]) == "☀️" || (imageState[rec.weatherState]) == "🌤" ||
-                    (imageState[rec.weatherState]) == "☁️" ||
-                    (imageState[rec.weatherState]) == "🌧" ||
-                    (imageState[rec.weatherState]) == "🌦" ||
-                    (imageState[rec.weatherState]) == "⛈" ||
-                    (imageState[rec.weatherState]) == "❄️"){
-                    
-                    WeatherRecordView(record: rec, viewModel: viewModel, image: imageState[rec.weatherState]!)
-                    
+        ScrollView(.vertical){
+            VStack{
+            
+                ForEach(viewModel.records){ rec in
+                    if((imageState[rec.weatherState]) == "☀️" || (imageState[rec.weatherState]) == "🌤" ||
+                        (imageState[rec.weatherState]) == "☁️" ||
+                        (imageState[rec.weatherState]) == "🌧" ||
+                        (imageState[rec.weatherState]) == "🌦" ||
+                        (imageState[rec.weatherState]) == "⛈" ||
+                        (imageState[rec.weatherState]) == "❄️" ||
+                        (imageState[rec.weatherState]) == "🌩" ||
+                        (imageState[rec.weatherState]) == "💨"){
+                        
+                        WeatherRecordView(record: rec, viewModel: viewModel, image: imageState[rec.weatherState]!)
+                        
+                    }
+                    else{
+                        WeatherRecordView(record: rec, viewModel: viewModel, image: "﹖")
+                        
+                    }
                 }
-                else{
-                    WeatherRecordView(record: rec, viewModel: viewModel, image: "﹖")
-                    
-                }
-            }
-        }.padding()
+            }.padding()
+        }
     }
 }
 
@@ -49,28 +57,30 @@ struct WeatherRecordView: View{
     var image: String = "a"
     
     var body: some View{
-        ZStack{
-            RoundedRectangle(cornerRadius: 25.0)
-                .stroke()
-            HStack{
-                Text(image)
-                    .font(.largeTitle)
-                VStack{
-                    Text(record.cityName)
-                    Text("\(record.showing) : \(record.value,  specifier: "%.2f")")
-                        .font(.caption)
-                        .onTapGesture {
-                            viewModel.change(record: record)
-                        }
-                    
-                }
-                Text("🔄")
-                    .font(.largeTitle)
-                    .onTapGesture {
-                        viewModel.refresh(record: record)
+
+            ZStack{
+                RoundedRectangle(cornerRadius: 25.0)
+                    .stroke()
+                HStack{
+                    Text(image)
+                        .font(.largeTitle)
+                    VStack{
+                        Text(record.cityName)
+                        Text("\(record.showing) : \(record.value,  specifier: "%.2f")")
+                            .font(.caption)
+                            .onTapGesture {
+                                viewModel.change(record: record)
+                            }
+                        
                     }
-            }
-}    }
+                    Text("🔄")
+                        .font(.largeTitle)
+                        .onTapGesture {
+                            viewModel.refresh(record: record)
+                        }
+                }
+            }.frame(height: 70)
+    }
 }
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
