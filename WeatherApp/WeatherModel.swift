@@ -9,16 +9,16 @@ import Foundation
 struct WeatherModel{
     var records: Array<WeatherRecord> = []
      
-    init(cities: Array<String>){
+    init(cities: Array<String>, weatherStates: Array<String>){
         records = Array<WeatherRecord>()
-        for city in cities{
-            records.append(WeatherRecord(cityName: city))
+        for (city,state) in zip(cities,weatherStates){
+            records.append(WeatherRecord(cityName: city, weatherState: state))
         }
     }
     struct WeatherRecord: Identifiable{
         var id: UUID = UUID()
         var cityName: String
-        var weatherState: String = "snow"
+        var weatherState: String 
         var temperature: Float = Float.random(in: -10...30)
         var humidity: Float = Float.random(in: 0...100)
         var windSpeed: Float = Float.random(in: 0...20)
@@ -26,14 +26,26 @@ struct WeatherModel{
         //variables added to change view after tapping
         var showing: String = "Temperature"
         var value: Float = Float.random(in: -10...30)
+        var unit: String = "℃"
     }
     
     mutating func refresh(record: WeatherRecord){
         var i = 0
         for rec in records{
             if(rec.cityName==record.cityName){
-                records[i].temperature = Float.random(in: -10...30)
-                print("Refreshing record: \(record)")
+                    if(records[i].showing=="Temperature"){
+                        records[i].temperature = Float.random(in: -10...30)
+                        records[i].value = records[i].temperature
+                    }else if(records[i].showing=="Humidity"){
+                        records[i].humidity = Float.random(in: 0...100)
+                        records[i].value = records[i].humidity
+                    }else if(records[i].showing=="Wind Speed"){
+                        records[i].windSpeed = Float.random(in: 0...20)
+                        records[i].value = records[i].windSpeed
+                    }else if(records[i].showing == "Wind Direction"){
+                        records[i].windDirection = Float.random(in: 0..<360)
+                        records[i].value = records[i].windDirection
+                    }
             }
             i += 1
         }
@@ -47,16 +59,19 @@ struct WeatherModel{
                 if(records[i].showing=="Temperature"){
                     records[i].showing = "Humidity"
                     records[i].value = records[i].humidity
+                    records[i].unit = "g/m3"
                 }else if(records[i].showing=="Humidity"){
                     records[i].showing = "Wind Speed"
                     records[i].value = records[i].windSpeed
+                    records[i].unit = "km/h"
                 }else if(records[i].showing=="Wind Speed"){
                     records[i].showing = "Wind Direction"
                     records[i].value = records[i].windDirection
+                    records[i].unit = ""
                 }else if(records[i].showing == "Wind Direction"){
                     records[i].showing = "Temperature"
                     records[i].value = records[i].temperature
-                }
+                    records[i].unit = "℃"                }
             }
             i += 1
         }

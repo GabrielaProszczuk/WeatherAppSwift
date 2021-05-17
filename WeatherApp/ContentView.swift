@@ -37,7 +37,8 @@ struct ContentView: View {
                         (imageState[rec.weatherState]) == "⛈" ||
                         (imageState[rec.weatherState]) == "❄️" ||
                         (imageState[rec.weatherState]) == "🌩" ||
-                        (imageState[rec.weatherState]) == "💨"){
+                        (imageState[rec.weatherState]) == "💨" ||
+                        (imageState[rec.weatherState]) == "🌨"){
                         
                         WeatherRecordView(record: rec, viewModel: viewModel, image: imageState[rec.weatherState]!)
                         
@@ -74,7 +75,7 @@ struct WeatherRecordView: View{
                     //Spacer()
                     VStack(alignment: .leading){
                         Text(record.cityName)
-                        Text("\(record.showing) : \(record.value,  specifier: "%.2f")")
+                        Text("\(record.showing) : \(record.value,  specifier: "%.2f") \(record.unit)")
                             .font(.caption)
                             .onTapGesture {
                                 //changing variable
@@ -86,9 +87,10 @@ struct WeatherRecordView: View{
                  
                     GeometryReader{ geometry in
                         Text("🔄")
-                            .font(.system(size: 0.4*geometry.size.height))                        .onTapGesture {
-                            viewModel.refresh(record: record)
-                        }
+                            .font(.system(size: 0.4*geometry.size.height))
+                            .onTapGesture {
+                                viewModel.refresh(record: record)
+                            }
                         .position(x: geometry.size.width*0.75, y: geometry.size.height/2)
                     }
                     }
