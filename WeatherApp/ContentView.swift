@@ -55,7 +55,7 @@ struct ContentView: View {
 struct WeatherRecordView: View{
     var record: WeatherModel.WeatherRecord
     var viewModel: WeatherViewModel
-    var image: String = "a"
+    var image: String
     
     var body: some View{
 
@@ -63,8 +63,13 @@ struct WeatherRecordView: View{
                 RoundedRectangle(cornerRadius: 25.0)
                     .stroke()
                 HStack{
-                    Text(image)
-                        .font(.largeTitle)
+                    GeometryReader{ geometry in
+                        Text(image)
+                            .font(.system(size: 0.5*geometry.size.width))
+                    }
+                        
+                    //Spacer allows icons to be aligned to left and right side
+                    Spacer()
                     VStack{
                         Text(record.cityName)
                         Text("\(record.showing) : \(record.value,  specifier: "%.2f")")
@@ -74,7 +79,8 @@ struct WeatherRecordView: View{
                                 viewModel.change(record: record)
                             }
                         
-                    }
+                    }.layoutPriority(100)
+                    Spacer()
                     Text("🔄")
                         .font(.largeTitle)
                         .onTapGesture {
