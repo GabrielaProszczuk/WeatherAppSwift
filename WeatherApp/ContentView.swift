@@ -58,18 +58,24 @@ struct WeatherRecordView: View{
     var record: WeatherModel.WeatherRecord
     var viewModel: WeatherViewModel
     var image: String
-    
+    let radius: CGFloat = 25.0
+    let sizeRatio: CGFloat = 0.4
+    let xDiv: CGFloat = 4
+    let yDiv: CGFloat = 2
+    let priority: Double = 100
+    let widthRatio: CGFloat = 0.75
+    let height: CGFloat = 70
     var body: some View{
 
             ZStack{
-                RoundedRectangle(cornerRadius: 25.0)
+                RoundedRectangle(cornerRadius: radius)
                     .stroke()
                 HStack{
                     //font and position are bind to size of window
                     GeometryReader{ geometry in
                         Text(image)
-                            .font(.system(size: 0.4*geometry.size.height))
-                            .position(x: geometry.size.width/4, y: geometry.size.height/2)
+                            .font(.system(size: sizeRatio*geometry.size.height))
+                            .position(x: geometry.size.width/xDiv, y: geometry.size.height/yDiv)
                        // Spacer()
                     }
  
@@ -84,19 +90,19 @@ struct WeatherRecordView: View{
                                 viewModel.change(record: record)
                             }
                         
-                    }.layoutPriority(100)
+                    }.layoutPriority(priority)
                     Spacer()
                  
                     GeometryReader{ geometry in
                         Text("🔄")
-                            .font(.system(size: 0.4*geometry.size.height))
+                            .font(.system(size: sizeRatio*geometry.size.height))
                             .onTapGesture {
                                 viewModel.refresh(record: record)
                             }
-                        .position(x: geometry.size.width*0.75, y: geometry.size.height/2)
+                        .position(x: geometry.size.width*widthRatio, y: geometry.size.height/yDiv)
                     }
                     }
-            }.frame(height: 70)
+            }.frame(height: height)
     }
 }
 struct ContentView_Previews: PreviewProvider {
