@@ -11,6 +11,7 @@ struct WeatherModel{
      
     init(cities: Array<String>, weatherStates: Array<String>){
         records = Array<WeatherRecord>()
+        //creating new records by given data
         for (city,state) in zip(cities,weatherStates){
             records.append(WeatherRecord(cityName: city, weatherState: state))
         }
@@ -32,6 +33,7 @@ struct WeatherModel{
     mutating func refresh(record: WeatherRecord){
         var i = 0
         for rec in records{
+            //refresh shown variable
             if(rec.cityName==record.cityName){
                     if(records[i].showing=="Temperature"){
                         records[i].temperature = Float.random(in: -10...30)
@@ -71,7 +73,9 @@ struct WeatherModel{
                 }else if(records[i].showing == "Wind Direction"){
                     records[i].showing = "Temperature"
                     records[i].value = records[i].temperature
-                    records[i].unit = "℃"                }
+                    records[i].unit = "℃"
+                    
+                }
             }
             i += 1
         }

@@ -44,6 +44,7 @@ struct ContentView: View {
                         
                     }
                     else{
+                        //if state doesn't exist
                         WeatherRecordView(record: rec, viewModel: viewModel, image: "﹖")
                         
                     }
@@ -64,6 +65,7 @@ struct WeatherRecordView: View{
                 RoundedRectangle(cornerRadius: 25.0)
                     .stroke()
                 HStack{
+                    //font and position are bind to size of window
                     GeometryReader{ geometry in
                         Text(image)
                             .font(.system(size: 0.4*geometry.size.height))
@@ -71,7 +73,7 @@ struct WeatherRecordView: View{
                        // Spacer()
                     }
  
-                    //Spacer allows icons to be aligned to left and right side
+                    
                     //Spacer()
                     VStack(alignment: .leading){
                         Text(record.cityName)
