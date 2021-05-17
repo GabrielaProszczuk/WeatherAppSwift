@@ -65,12 +65,14 @@ struct WeatherRecordView: View{
                 HStack{
                     GeometryReader{ geometry in
                         Text(image)
-                            .font(.system(size: 0.5*geometry.size.width))
+                            .font(.system(size: 0.4*geometry.size.height))
+                            .position(x: geometry.size.width/4, y: geometry.size.height/2)
+                       // Spacer()
                     }
-                        
+ 
                     //Spacer allows icons to be aligned to left and right side
-                    Spacer()
-                    VStack{
+                    //Spacer()
+                    VStack(alignment: .leading){
                         Text(record.cityName)
                         Text("\(record.showing) : \(record.value,  specifier: "%.2f")")
                             .font(.caption)
@@ -81,12 +83,15 @@ struct WeatherRecordView: View{
                         
                     }.layoutPriority(100)
                     Spacer()
-                    Text("🔄")
-                        .font(.largeTitle)
-                        .onTapGesture {
+                 
+                    GeometryReader{ geometry in
+                        Text("🔄")
+                            .font(.system(size: 0.4*geometry.size.height))                        .onTapGesture {
                             viewModel.refresh(record: record)
                         }
-                }.frame(width: 250)
+                        .position(x: geometry.size.width*0.75, y: geometry.size.height/2)
+                    }
+                    }
             }.frame(height: 70)
     }
 }
