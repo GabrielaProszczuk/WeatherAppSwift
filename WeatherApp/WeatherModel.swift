@@ -6,15 +6,24 @@
 //
 
 import Foundation
+import Combine
 struct WeatherModel{
     var records: Array<WeatherRecord> = []
      
     init(cities: Array<String>, weatherStates: Array<String>){
         records = Array<WeatherRecord>()
         //creating new records by given data
+        var storage = Set<AnyCancellable>()
         for (city,state) in zip(cities,weatherStates){
+            let request = URLRequest(url: URL(string: "https://www.metaweather.com/api/location/44418/")!)
+            URLSession.shared.dataTaskPublisher(for: request)
+                .sink(receiveCompletion: { _ in print("completion")}
+                      , receiveValue: {print ($0)}
+                ).store(in: &storage)
+               
             records.append(WeatherRecord(cityName: city, weatherState: state))
         }
+        print(storage)
     }
     struct WeatherRecord: Identifiable{
         var id: UUID = UUID()
