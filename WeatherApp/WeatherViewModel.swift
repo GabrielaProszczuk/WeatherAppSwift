@@ -7,7 +7,7 @@
 
 import Foundation
 class WeatherViewModel: ObservableObject{
-    @Published private(set) var model: WeatherModel = WeatherModel(cities: ["Paris","Warsaw","Barcelona","New York","Oslo","Berlin","Venice","Minsk","London","Lublin"], weatherStates: ["clear","lightRain","heavyRain","snow","thunderstorm","sleet","showers","lightCloud","heavyCloud","hail"])
+    @Published private(set) var model: WeatherModel = WeatherModel(cities: ["44418","44418","44418","44418","44418","44418","44418","44418","44418","44418"])
     
     var records: Array<WeatherModel.WeatherRecord>{
         model.records

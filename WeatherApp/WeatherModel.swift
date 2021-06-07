@@ -10,25 +10,33 @@ import Combine
 struct WeatherModel{
     var records: Array<WeatherRecord> = []
      
-    init(cities: Array<String>, weatherStates: Array<String>){
+    init(cities: Array<String>){
         records = Array<WeatherRecord>()
         //creating new records by given data
         var storage = Set<AnyCancellable>()
-        for (city,state) in zip(cities,weatherStates){
-            let request = URLRequest(url: URL(string: "https://www.metaweather.com/api/location/44418/")!)
-            URLSession.shared.dataTaskPublisher(for: request)
-                .sink(receiveCompletion: { _ in print("completion")}
-                      , receiveValue: {print ($0)}
-                ).store(in: &storage)
-               
-            records.append(WeatherRecord(cityName: city, weatherState: state))
+        for city in cities{
+            let request = URLRequest(url: URL(string: "https://www.metaweather.com/api/location/"+city+"/")!)
+            let publisher = URLSession.shared.dataTaskPublisher(for: request)
+                .receive(on: DispatchQueue.main)
+                .eraseToAnyPublisher()
+            let subscriber = publisher.sink(receiveCompletion: {completion in
+                switch completion{
+                case .failure(let error):
+                    print(error)
+                case .finished:
+                    break
+                }
+            }) { weak self} viewModel in
+            self?.viewModel = viewModel
+            }
+            records.append(WeatherRecord(cityName: city))
         }
         print(storage)
     }
     struct WeatherRecord: Identifiable{
         var id: UUID = UUID()
         var cityName: String
-        var weatherState: String 
+        var weatherState: String = "cold"
         var temperature: Float = Float.random(in: -10...30)
         var humidity: Float = Float.random(in: 0...100)
         var windSpeed: Float = Float.random(in: 0...20)
