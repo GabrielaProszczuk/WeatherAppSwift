@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC7A174F266FE82200623C5B /* WeatherAppResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7A174E266FE82200623C5B /* WeatherAppResponse.swift */; };
 		ACF6E13C2643C18700C5D0CC /* WeatherAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF6E13B2643C18700C5D0CC /* WeatherAppApp.swift */; };
 		ACF6E13E2643C18700C5D0CC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF6E13D2643C18700C5D0CC /* ContentView.swift */; };
 		ACF6E1402643C18900C5D0CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACF6E13F2643C18900C5D0CC /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC7A174E266FE82200623C5B /* WeatherAppResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppResponse.swift; sourceTree = "<group>"; };
 		ACF6E1382643C18700C5D0CC /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF6E13B2643C18700C5D0CC /* WeatherAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppApp.swift; sourceTree = "<group>"; };
 		ACF6E13D2643C18700C5D0CC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				ACF6E13F2643C18900C5D0CC /* Assets.xcassets */,
 				ACF6E1442643C18900C5D0CC /* Info.plist */,
 				ACF6E1412643C18900C5D0CC /* Preview Content */,
+				AC7A174E266FE82200623C5B /* WeatherAppResponse.swift */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 				ACF947A8264D057000271709 /* WeatherViewModel.swift in Sources */,
 				ACF6E14C2643C95800C5D0CC /* WeatherModel.swift in Sources */,
 				ACF6E13C2643C18700C5D0CC /* WeatherAppApp.swift in Sources */,
+				AC7A174F266FE82200623C5B /* WeatherAppResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

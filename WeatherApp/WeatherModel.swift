@@ -7,36 +7,33 @@
 
 import Foundation
 import Combine
+
+
 struct WeatherModel{
     var records: Array<WeatherRecord> = []
-     
+   //
     init(cities: Array<String>){
-        records = Array<WeatherRecord>()
         //creating new records by given data
-        var storage = Set<AnyCancellable>()
         for city in cities{
-            let request = URLRequest(url: URL(string: "https://www.metaweather.com/api/location/"+city+"/")!)
+            var response: MetaWeatherResponse?
+            let request =  URL(string: "https://www.metaweather.com/api/location/"+city+"/")!
             let publisher = URLSession.shared.dataTaskPublisher(for: request)
-                .receive(on: DispatchQueue.main)
+                .map { $0.data }
+                .decode(type: MetaWeatherResponse.self, decoder: JSONDecoder())
+                .receive(on: RunLoop.main)
                 .eraseToAnyPublisher()
-            let subscriber = publisher.sink(receiveCompletion: {completion in
-                switch completion{
-                case .failure(let error):
-                    print(error)
-                case .finished:
-                    break
-                }
-            }) { weak self} viewModel in
-            self?.viewModel = viewModel
-            }
-            records.append(WeatherRecord(cityName: city))
+            let subscriber: AnyCancellable? = publisher.sink(receiveCompletion: {_ in},
+                                                             receiveValue: { (res) in response = res})
+                
+            records.append(WeatherRecord(cityName: response!.title))
+            print(response)
+
         }
-        print(storage)
     }
     struct WeatherRecord: Identifiable{
         var id: UUID = UUID()
         var cityName: String
-        var weatherState: String = "cold"
+        var weatherState: String = "snow"
         var temperature: Float = Float.random(in: -10...30)
         var humidity: Float = Float.random(in: 0...100)
         var windSpeed: Float = Float.random(in: 0...20)
