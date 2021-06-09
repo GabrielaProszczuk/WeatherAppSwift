@@ -10,29 +10,14 @@ import Combine
 
 
 struct WeatherModel{
+    var set: Set<AnyCancellable> = []
     var records: Array<WeatherRecord> = []
-   //
-    init(cities: Array<String>){
-        //creating new records by given data
-        for city in cities{
-            var response: MetaWeatherResponse?
-            let request =  URL(string: "https://www.metaweather.com/api/location/"+city+"/")!
-            let publisher = URLSession.shared.dataTaskPublisher(for: request)
-                .map { $0.data }
-                .decode(type: MetaWeatherResponse.self, decoder: JSONDecoder())
-                .receive(on: RunLoop.main)
-                .eraseToAnyPublisher()
-            let subscriber: AnyCancellable? = publisher.sink(receiveCompletion: {_ in},
-                                                             receiveValue: { (res) in response = res})
-                
-            records.append(WeatherRecord(cityName: response!.title))
-            print(response)
-
-        }
-    }
+    var fetcher = MetaWeatherFetcher()
+    
     struct WeatherRecord: Identifiable{
         var id: UUID = UUID()
         var cityName: String
+        var woeId: String
         var weatherState: String = "snow"
         var temperature: Float = Float.random(in: -10...30)
         var humidity: Float = Float.random(in: 0...100)
@@ -42,6 +27,16 @@ struct WeatherModel{
         var showing: String = "Temperature"
         var value: Float = Float.random(in: -10...30)
         var unit: String = "℃"
+        
+        init(response: MetaWeatherResponse){
+            cityName = response.title
+            woeId = String(response.woeid)
+            weatherState = response.consolidatedWeather[0].weatherStateName
+            temperature = Float(response.consolidatedWeather[0].theTemp)
+            humidity = Float(response.consolidatedWeather[0].humidity)
+            windSpeed = Float(response.consolidatedWeather[0].windSpeed)
+            windDirection = Float(response.consolidatedWeather[0].windDirection)
+        }
     }
     
     mutating func refresh(record: WeatherRecord){

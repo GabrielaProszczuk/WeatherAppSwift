@@ -1,7 +1,11 @@
-//generated with quicktype
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
+
 import Foundation
 
-
+// MARK: - Welcome
 struct MetaWeatherResponse: Codable {
     let consolidatedWeather: [ConsolidatedWeather]
     let time, sunRise, sunSet, timezoneName: String
@@ -25,6 +29,7 @@ struct MetaWeatherResponse: Codable {
     }
 }
 
+// MARK: - ConsolidatedWeather
 struct ConsolidatedWeather: Codable {
     let id: Int
     let weatherStateName, weatherStateAbbr, windDirectionCompass, created: String
@@ -52,6 +57,7 @@ struct ConsolidatedWeather: Codable {
     }
 }
 
+// MARK: - Parent
 struct Parent: Codable {
     let title, locationType: String
     let woeid: Int
@@ -65,6 +71,7 @@ struct Parent: Codable {
     }
 }
 
+// MARK: - Source
 struct Source: Codable {
     let title, slug: String
     let url: String
