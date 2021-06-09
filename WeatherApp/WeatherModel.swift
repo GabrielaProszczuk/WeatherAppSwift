@@ -13,7 +13,8 @@ struct WeatherModel{
     var set: Set<AnyCancellable> = []
     var records: Array<WeatherRecord> = []
     var fetcher = MetaWeatherFetcher()
-    
+        
+
     struct WeatherRecord: Identifiable{
         var id: UUID = UUID()
         var cityName: String
