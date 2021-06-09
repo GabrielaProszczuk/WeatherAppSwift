@@ -11,16 +11,16 @@ struct ContentView: View {
 
     @ObservedObject var viewModel: WeatherViewModel
     var imageState: [String: String] = [
-                      "clear": "☀️",
-                      "lightCloud":"🌤",
-                      "heavyCloud":"☁️",
-                      "thunderstorm":"🌩",
-                      "showers":"🌦",
-                      "lightRain":"🌧",
-                      "heavyRain":"⛈",
-                      "snow":"❄️",
-                      "sleet":"🌨",
-                      "hail":"💨"
+                      "Clear": "☀️",
+                      "Light Cloud":"🌤",
+                      "Heavy Cloud":"☁️",
+                      "Thunderstorm":"🌩",
+                      "Showers":"🌦",
+                      "Light Rain":"🌧",
+                      "Heavy Rain":"⛈",
+                      "Snow":"❄️",
+                      "Sleet":"🌨",
+                      "Hail":"💨"
         
     ]
     var data: String = ""
@@ -97,7 +97,7 @@ struct WeatherRecordView: View{
                         Text("🔄")
                             .font(.system(size: sizeRatio*geometry.size.height))
                             .onTapGesture {
-                                viewModel.refresh(record: record)
+                                viewModel.refresh(city: record.woeId)
                             }
                         .position(x: geometry.size.width*widthRatio, y: geometry.size.height/yDiv)
                     }

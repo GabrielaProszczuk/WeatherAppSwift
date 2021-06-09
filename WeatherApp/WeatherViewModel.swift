@@ -8,7 +8,7 @@ import Combine
 import Foundation
 
 class WeatherViewModel: ObservableObject{
-    var cities = ["523920","1118370", "455825", "2122265", "2391279", "1528488", "742676", "565346", "368148", "638242", "862592"]
+    var cities = ["44418","1118370", "455825", "2122265", "2391279", "1528488", "742676", "565346", "368148", "638242", "862592"]
     @Published private(set) var model = WeatherModel()
     var fetcher = MetaWeatherFetcher()
     private var cancellables: Set<AnyCancellable> = []
@@ -26,9 +26,17 @@ class WeatherViewModel: ObservableObject{
         }
     }
     
-    func refresh(record: WeatherModel.WeatherRecord){
-        model.refresh(record: record)
-    }
+    func refresh(city: String) {
+            objectWillChange.send()
+            fetcher.fetchWeather(forId: city)
+                .map { res in
+                    WeatherModel.WeatherRecord(response: res)
+                }
+                .sink(receiveCompletion: { _ in
+                }, receiveValue: { res in
+                    self.model.refresh(city: city, record: res)})
+                .store(in: &cancellables)
+        }
     
     func change(record: WeatherModel.WeatherRecord){
         model.change(record: record)

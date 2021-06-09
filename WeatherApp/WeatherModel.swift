@@ -19,14 +19,14 @@ struct WeatherModel{
         var id: UUID = UUID()
         var cityName: String
         var woeId: String
-        var weatherState: String = "snow"
-        var temperature: Float = Float.random(in: -10...30)
-        var humidity: Float = Float.random(in: 0...100)
-        var windSpeed: Float = Float.random(in: 0...20)
-        var windDirection: Float = Float.random(in: 0..<360)
+        var weatherState: String
+        var temperature: Float
+        var humidity: Float
+        var windSpeed: Float
+        var windDirection: Float
         //variables added to change view after tapping
         var showing: String = "Temperature"
-        var value: Float = Float.random(in: -10...30)
+        var value: Float
         var unit: String = "℃"
         
         init(response: MetaWeatherResponse){
@@ -37,31 +37,17 @@ struct WeatherModel{
             humidity = Float(response.consolidatedWeather[0].humidity)
             windSpeed = Float(response.consolidatedWeather[0].windSpeed)
             windDirection = Float(response.consolidatedWeather[0].windDirection)
+            value = Float(response.consolidatedWeather[0].theTemp)
+            //print(weatherState)
         }
     }
     
-    mutating func refresh(record: WeatherRecord){
-        var i = 0
-        for rec in records{
-            //refresh shown variable
-            if(rec.cityName==record.cityName){
-                    if(records[i].showing=="Temperature"){
-                        records[i].temperature = Float.random(in: -10...30)
-                        records[i].value = records[i].temperature
-                    }else if(records[i].showing=="Humidity"){
-                        records[i].humidity = Float.random(in: 0...100)
-                        records[i].value = records[i].humidity
-                    }else if(records[i].showing=="Wind Speed"){
-                        records[i].windSpeed = Float.random(in: 0...20)
-                        records[i].value = records[i].windSpeed
-                    }else if(records[i].showing == "Wind Direction"){
-                        records[i].windDirection = Float.random(in: 0..<360)
-                        records[i].value = records[i].windDirection
-                    }
+    mutating func refresh(city: String, record: WeatherRecord) {
+        let i = records.firstIndex(where: { $0.woeId == city })
+            if  i != nil{
+                records[i!] = record
             }
-            i += 1
-        }
-    }
+   }
     
     //find and change shown variable
     mutating func change(record: WeatherRecord){
@@ -71,7 +57,7 @@ struct WeatherModel{
                 if(records[i].showing=="Temperature"){
                     records[i].showing = "Humidity"
                     records[i].value = records[i].humidity
-                    records[i].unit = "g/m3"
+                    records[i].unit = "%"
                 }else if(records[i].showing=="Humidity"){
                     records[i].showing = "Wind Speed"
                     records[i].value = records[i].windSpeed
