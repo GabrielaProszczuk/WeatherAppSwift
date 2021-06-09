@@ -35,7 +35,7 @@ class WeatherViewModel: ObservableObject{
                 .sink(receiveCompletion: { _ in
                 }, receiveValue: { res in
                     self.model.refresh(city: city, record: res)})
-               // .store(in: &cancellables)
+                .store(in: &cancellables)
         }
     
     func change(record: WeatherModel.WeatherRecord){
