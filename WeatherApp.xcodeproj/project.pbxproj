@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC03BFDD26714AE300763DE9 /* WeatherFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC03BFDC26714AE300763DE9 /* WeatherFetcher.swift */; };
+		AC03BFE32671B20C00763DE9 /* WeatherAppLocationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC03BFE22671B20C00763DE9 /* WeatherAppLocationResponse.swift */; };
 		AC7A174F266FE82200623C5B /* WeatherAppResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7A174E266FE82200623C5B /* WeatherAppResponse.swift */; };
 		ACF6E13C2643C18700C5D0CC /* WeatherAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF6E13B2643C18700C5D0CC /* WeatherAppApp.swift */; };
 		ACF6E13E2643C18700C5D0CC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF6E13D2643C18700C5D0CC /* ContentView.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		AC03BFDC26714AE300763DE9 /* WeatherFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFetcher.swift; sourceTree = "<group>"; };
+		AC03BFE22671B20C00763DE9 /* WeatherAppLocationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppLocationResponse.swift; sourceTree = "<group>"; };
 		AC7A174E266FE82200623C5B /* WeatherAppResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppResponse.swift; sourceTree = "<group>"; };
 		ACF6E1382643C18700C5D0CC /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF6E13B2643C18700C5D0CC /* WeatherAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppApp.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				ACF6E1412643C18900C5D0CC /* Preview Content */,
 				AC7A174E266FE82200623C5B /* WeatherAppResponse.swift */,
 				AC03BFDC26714AE300763DE9 /* WeatherFetcher.swift */,
+				AC03BFE22671B20C00763DE9 /* WeatherAppLocationResponse.swift */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -153,6 +156,7 @@
 				AC03BFDD26714AE300763DE9 /* WeatherFetcher.swift in Sources */,
 				ACF6E13E2643C18700C5D0CC /* ContentView.swift in Sources */,
 				ACF947A8264D057000271709 /* WeatherViewModel.swift in Sources */,
+				AC03BFE32671B20C00763DE9 /* WeatherAppLocationResponse.swift in Sources */,
 				ACF6E14C2643C95800C5D0CC /* WeatherModel.swift in Sources */,
 				ACF6E13C2643C18700C5D0CC /* WeatherAppApp.swift in Sources */,
 				AC7A174F266FE82200623C5B /* WeatherAppResponse.swift in Sources */,

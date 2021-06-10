@@ -9,23 +9,33 @@ import Foundation
 import CoreLocation
 
 class WeatherViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
-    var cities = ["44418","1118370", "455825", "2122265", "2391279", "1528488", "742676", "565346", "368148", "638242", "862592"]
-    @Published private(set) var model = WeatherModel()
+
+  
     var fetcher = MetaWeatherFetcher()
+    var cities = ["44418","1118370", "455825", "646099", "721943", "1528488", "742676", "565346", "368148", "638242", "862592"]
+    let locationManager: CLLocationManager;
+    
+    @Published var nearestCity: String?;
+    @Published var lastLoc: CLLocation?;
+    @Published private(set) var model = WeatherModel()
+    
+    //Cancellables
     private var cancellables: Set<AnyCancellable> = []
     private var set: Set<AnyCancellable> = []
-    let locationManager: CLLocationManager;
-    @Published var nearestCity: String?;
-    @Published var lastSeenLocation: CLLocation?;
-    
+    private var cancellUpdate: Set<AnyCancellable> = []
+    private var cancelNew: Set<AnyCancellable> = []
+    private var locCancellable: Set<AnyCancellable> = []
     var records: Array<WeatherModel.WeatherRecord> {
         model.records
     }
+    
     override init() {
        locationManager = CLLocationManager()
        locationManager.requestWhenInUseAuthorization()
        super.init()
        locationManager.delegate = self
+       locationManager.startUpdatingLocation()
+        
        for city in cities {
             fetcher.fetchWeather(forId: city)
                 .sink(receiveCompletion: { _ in},
@@ -36,21 +46,51 @@ class WeatherViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
         
     }
 
-
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus, didUpdateLocations locations: [CLLocation]) {
-        if (status == .authorizedWhenInUse || status == .authorizedAlways) {
-            lastSeenLocation = locations.first;
-                if let lastLocation = self.lastSeenLocation {
-                    let geocoder = CLGeocoder()
-                    geocoder.reverseGeocodeLocation(lastLocation,
-                        completionHandler: { (placemarks, error) in
-                            if error == nil {
-                                let firstLocation = placemarks?[0]
-                                self.nearestCity = firstLocation?.locality;
-                                }
-                            })
-                    }
+    //aktualna lokalizacja
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let status = CLLocationManager.authorizationStatus();
+        if (status != .denied && status != .restricted) {
+            lastLoc = locations.first;
+            checkCity()
         }
+    }
+
+    func checkCity() {
+            if let location = self.lastLoc {
+                let geocoder = CLGeocoder()
+                geocoder.reverseGeocodeLocation(location, completionHandler: {
+                    (placemarks, error) in
+                        if error == nil {
+                            let firstLocation = placemarks?[0]
+                            self.nearestCity = firstLocation?.locality
+                            }
+                        })
+
+                let long : String = String(location.coordinate.longitude)
+                let latt : String = String(location.coordinate.latitude)
+                
+                
+                var woeid = ""
+                fetcher.fetchCity(forId: latt, forId: long)
+                    .sink(receiveCompletion: { _ in
+                    }, receiveValue: { record in
+                        woeid = String(record[0].woeid)
+                        self.cities[0] = woeid ///Czy trrzeba?
+                        self.fetcher.fetchWeather(forId: woeid)
+                            .sink(receiveCompletion: { _ in},
+                                  receiveValue: { res in
+                                    self.model.records[0] = WeatherModel.WeatherRecord(response: res)
+                                    if let nearestCityLet = self.nearestCity {
+                                        self.model.records[0].cityName = String(nearestCityLet) +  "(" + String(record[0].title) + ")" }
+                                    self.model.refresh(city: self.model.records[0].woeId, record: self.model.records[0])
+                            })
+                            .store(in: &self.cancelNew)
+                        
+                    })
+                    .store(in: &locCancellable)
+                
+            }
+                        
     }
 
     func refresh(city: String) {
