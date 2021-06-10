@@ -7,6 +7,19 @@
 
 import SwiftUI
 
+struct SheetView: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    var body: some View {
+        Button("Press to dismiss") {
+            presentationMode.wrappedValue.dismiss()
+        }
+        .font(.title)
+        .padding()
+        .background(Color.white)
+    }
+}
+
 struct ContentView: View {
 
     @ObservedObject var viewModel: WeatherViewModel
@@ -25,6 +38,7 @@ struct ContentView: View {
     ]
     var data: String = ""
     var body: some View {
+        
         ScrollView(.vertical){
             VStack{
             
@@ -50,6 +64,7 @@ struct ContentView: View {
                     }
                 }
             }.padding()
+                    
         }
     }
 }
@@ -57,13 +72,15 @@ struct ContentView: View {
 struct WeatherRecordView: View{
     var record: WeatherModel.WeatherRecord
     var viewModel: WeatherViewModel
+    @State  var showingSheet = false
     var image: String
     let radius: CGFloat = 25.0
     let sizeRatio: CGFloat = 0.4
-    let xDiv: CGFloat = 4
+    let xDiv: CGFloat = 2
     let yDiv: CGFloat = 2
     let priority: Double = 100
-    let widthRatio: CGFloat = 0.75
+    let widthRatio: CGFloat = 0.6
+    let widthRatio2: CGFloat = 0.5
     let height: CGFloat = 70
     var body: some View{
 
@@ -101,6 +118,16 @@ struct WeatherRecordView: View{
                             }
                         .position(x: geometry.size.width*widthRatio, y: geometry.size.height/yDiv)
                     }
+                    GeometryReader{ geo in
+                        Button("MAP") {
+                            showingSheet.toggle()
+                        }
+                        .sheet(isPresented: $showingSheet) {
+                            SheetView()
+                        }
+                        .position(x: geo.size.width*widthRatio2, y: geo.size.height/yDiv)
+                    }
+                   
                     }
             }.frame(height: height)
     }
