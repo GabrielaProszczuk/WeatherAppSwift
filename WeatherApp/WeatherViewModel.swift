@@ -15,16 +15,16 @@ class WeatherViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
     var cities = ["44418","1118370", "455825", "646099", "721943", "1528488", "742676", "565346", "368148", "638242", "862592"]
     let locationManager: CLLocationManager;
     
-    @Published var nearestCity: String?;
+    @Published var closestLoc: String?;
     @Published var lastLoc: CLLocation?;
     @Published private(set) var model = WeatherModel()
     
     //Cancellables
     private var cancellables: Set<AnyCancellable> = []
     private var set: Set<AnyCancellable> = []
-    private var cancellUpdate: Set<AnyCancellable> = []
     private var cancelNew: Set<AnyCancellable> = []
     private var locCancellable: Set<AnyCancellable> = []
+    
     var records: Array<WeatherModel.WeatherRecord> {
         model.records
     }
@@ -62,7 +62,7 @@ class WeatherViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
                     (placemarks, error) in
                         if error == nil {
                             let firstLocation = placemarks?[0]
-                            self.nearestCity = firstLocation?.locality
+                            self.closestLoc = firstLocation?.locality
                             }
                         })
 
@@ -75,12 +75,11 @@ class WeatherViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
                     .sink(receiveCompletion: { _ in
                     }, receiveValue: { record in
                         woeid = String(record[0].woeid)
-                        self.cities[0] = woeid ///Czy trrzeba?
                         self.fetcher.fetchWeather(forId: woeid)
                             .sink(receiveCompletion: { _ in},
                                   receiveValue: { res in
                                     self.model.records[0] = WeatherModel.WeatherRecord(response: res)
-                                    if let nearestCityLet = self.nearestCity {
+                                    if let nearestCityLet = self.closestLoc {
                                         self.model.records[0].cityName = String(nearestCityLet) +  "(" + String(record[0].title) + ")" }
                                     self.model.refresh(city: self.model.records[0].woeId, record: self.model.records[0])
                             })
