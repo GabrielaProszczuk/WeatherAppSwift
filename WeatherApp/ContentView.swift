@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import MapKit
 
-struct SheetView: View {
+
+struct SheetView: View{
     @Environment(\.presentationMode) var presentationMode
-
-    var body: some View {
-        Button("Press to dismiss") {
+    @State var region : MKCoordinateRegion
+    var body:some View{
+        Map(coordinateRegion: $region)
+        Button("Press to dismiss"){
             presentationMode.wrappedValue.dismiss()
         }
         .font(.title)
@@ -78,6 +81,7 @@ struct WeatherRecordView: View{
     let sizeRatio: CGFloat = 0.4
     let xDiv: CGFloat = 2
     let yDiv: CGFloat = 2
+    let delta = 0.5
     let priority: Double = 100
     let widthRatio: CGFloat = 0.6
     let widthRatio2: CGFloat = 0.5
@@ -122,10 +126,20 @@ struct WeatherRecordView: View{
                         Button("MAP") {
                             showingSheet.toggle()
                         }
-                        .sheet(isPresented: $showingSheet) {
-                            SheetView()
-                        }
+                        .sheet(isPresented: $showingSheet){
+                                            SheetView(region:
+                                                MKCoordinateRegion(
+                                                    center: CLLocationCoordinate2D(
+                                                        latitude: Double(record.latt), longitude: Double(record.long)
+                                                    ),
+                                                    span: MKCoordinateSpan(
+                                                        latitudeDelta: 1.0, longitudeDelta: 1.0
+                                                    )
+                                                )
+                                            )
+                                        }
                         .position(x: geo.size.width*widthRatio2, y: geo.size.height/yDiv)
+                       
                     }
                    
                     }

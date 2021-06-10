@@ -24,6 +24,8 @@ struct WeatherModel{
         var humidity: Float
         var windSpeed: Float
         var windDirection: Float
+        var long: Float
+        var latt: Float
         //variables added to change view after tapping
         var showing: String = "Temperature"
         var value: Float
@@ -32,6 +34,8 @@ struct WeatherModel{
         init(response: MetaWeatherResponse){
             cityName = response.title
             woeId = String(response.woeid)
+            latt = Float(response.lattLong.components(separatedBy: ",")[0].trimmingCharacters(in: .whitespaces))!
+            long = Float(response.lattLong.components(separatedBy: ",")[1].trimmingCharacters(in: .whitespaces))!
             weatherState = response.consolidatedWeather[0].weatherStateName
             temperature = Float(response.consolidatedWeather[0].theTemp)
             humidity = Float(response.consolidatedWeather[0].humidity)

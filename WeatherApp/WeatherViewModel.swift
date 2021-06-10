@@ -38,17 +38,10 @@ class WeatherViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
 
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus, didUpdateLocations locations: [CLLocation]) {
-        print("Location manager authorization status changed to: \(status.rawValue)");
         if (status == .authorizedWhenInUse || status == .authorizedAlways) {
-            // aktualna lokalizacja
             lastSeenLocation = locations.first;
-            
-            // najbliższe miasto
-            // Ostatnia lokalizacja
                 if let lastLocation = self.lastSeenLocation {
                     let geocoder = CLGeocoder()
-                        
-                    // Look up the location and pass it to the completion handler
                     geocoder.reverseGeocodeLocation(lastLocation,
                         completionHandler: { (placemarks, error) in
                             if error == nil {
