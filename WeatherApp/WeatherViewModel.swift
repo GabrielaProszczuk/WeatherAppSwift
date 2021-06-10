@@ -66,8 +66,8 @@ class WeatherViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
                             }
                         })
 
-                let long : String = String(location.coordinate.longitude)
-                let latt : String = String(location.coordinate.latitude)
+                let long = String(location.coordinate.longitude)
+                let latt = String(location.coordinate.latitude)
                 
                 
                 var woeid = ""
@@ -79,8 +79,8 @@ class WeatherViewModel: NSObject, ObservableObject, CLLocationManagerDelegate{
                             .sink(receiveCompletion: { _ in},
                                   receiveValue: { res in
                                     self.model.records[0] = WeatherModel.WeatherRecord(response: res)
-                                    if let nearestCityLet = self.closestLoc {
-                                        self.model.records[0].cityName = String(nearestCityLet) +  "(" + String(record[0].title) + ")" }
+                                    if let closest = self.closestLoc {
+                                        self.model.records[0].cityName = String(closest) +  "(" + String(record[0].title) + ")" }
                                     self.model.refresh(city: self.model.records[0].woeId, record: self.model.records[0])
                             })
                             .store(in: &self.cancelNew)
